@@ -27,6 +27,9 @@ namespace fb_messenger_bot_tt_emergencyservices
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<MessengerSettings>(Configuration.GetSection("MessengerSettings"));
+            services.AddSingleton<IConfiguration>(Configuration);
+            services.AddOptions();
             // Add framework services.
             services.AddMvc();
         }
@@ -36,7 +39,7 @@ namespace fb_messenger_bot_tt_emergencyservices
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
+            
             app.UseMvc();
         }
     }

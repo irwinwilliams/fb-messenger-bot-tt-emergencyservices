@@ -1,19 +1,23 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace fb_messenger_bot_tt_emergencyservices.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        private MessengerSettings Settings { get; set; }
+
+        public ValuesController(IOptions<MessengerSettings> settings)
+        {            
+            Settings = settings.Value;
+        }
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new string[] { Settings.ApplicationName, Settings.FBAppSecret};
         }
 
         // GET api/values/5
