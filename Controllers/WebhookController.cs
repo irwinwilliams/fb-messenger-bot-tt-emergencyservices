@@ -1,16 +1,20 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
+using fb_messenger_bot_tt_emergencyservices.Handlers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 
 namespace fb_messenger_bot_tt_emergencyservices.Controllers
 {
     [Route("[controller]")]
-    public class WebhookController : Controller
+    public class WebhookController : Controller, IMessageSender
     {
         private MessengerSettings Settings { get; set; }
         private readonly ILogger<WebhookController> _logger;
+        private List<IMessengerHandler> _handlers;
 
         public WebhookController(
             IOptions<MessengerSettings> settings, 
@@ -18,6 +22,8 @@ namespace fb_messenger_bot_tt_emergencyservices.Controllers
         {            
             Settings = settings.Value;
             _logger = logger;
+            _handlers = new List<IMessengerHandler>();
+            _handlers.Add(new AuthenticationHandler<WebhookController>(_logger, this));
         }
         [HttpGet]
         public string Get()
@@ -40,29 +46,33 @@ namespace fb_messenger_bot_tt_emergencyservices.Controllers
             return result;  
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
+        // POST /webhook
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post([FromBody]dynamic data)
         {
+            if (data["object"] == "page") {
+                var entries = data["entry"];
+                foreach (var pageEntry in entries)
+                {
+                    var pageID = pageEntry.id;
+                    var timeOfEvent = pageEntry.time;
+                    foreach (var messagingEvent in pageEntry["messaging"])
+                    {
+                        foreach (var handler in _handlers)
+                        {
+                            if (handler.MessageHandled(messagingEvent))
+                                break;
+                        }
+                    }
+                }  
+            }
+
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void SendTextMessage(string senderId, string message)
         {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            _logger.LogInformation("Send: "+message);
+            //throw new NotImplementedException();
         }
     }
 }
