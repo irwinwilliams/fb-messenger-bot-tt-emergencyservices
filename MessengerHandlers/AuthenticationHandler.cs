@@ -1,4 +1,3 @@
-using System;
 using fb_messenger_bot_tt_emergencyservices.Handlers;
 using Microsoft.Extensions.Logging;
 
