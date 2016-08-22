@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 using fb_messenger_bot_tt_emergencyservices.Handlers;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
@@ -25,12 +26,30 @@ namespace fb_messenger_bot_tt_emergencyservices
         ILogger<T> _logger;
         IMessageSender _messageSender;
         string _serverUrl;
+        Dictionary<string, dynamic> _messageTypeExamples;
         public MessageHandler (ILogger<T> logger, IMessageSender messageSender, string serverUrl)
         {
             _logger = logger;
             _messageSender = messageSender;
             _serverUrl = serverUrl;
+            LoadMessageTypeExamples();
         }
+
+        private void LoadMessageTypeExamples()
+        {
+            _messageTypeExamples = new Dictionary<string, dynamic>();
+            _messageTypeExamples.Add("image", new 
+                {
+                    attachment = new {
+                        type = "image",
+                        payload = new {
+                            url = _serverUrl + "/assets/rift.png"
+                        }
+                    }
+                }
+            );
+        }
+
         public bool MessageHandled(dynamic message)
         {
             var result = message.message != null;
@@ -78,6 +97,54 @@ namespace fb_messenger_bot_tt_emergencyservices
                     // the text we received.
                     switch (messageText)
                     {
+                        case "image":
+                            SendMessage(senderID, "image");
+                            break;
+
+                        case "gif":
+                            SendMessage(senderID, "gif");
+                            break;
+
+                        case "audio":
+                            SendMessage(senderID, "audio");
+                            break;
+
+                        case "video":
+                            SendMessage(senderID, "video");
+                            break;
+
+                        case "file":
+                            SendMessage(senderID, "file");
+                            break;
+
+                        case "button":
+                            SendMessage(senderID, "button");
+                            break;
+
+                        case "generic":
+                            SendMessage(senderID, "generic");
+                            break;
+
+                        case "receipt":
+                            SendMessage(senderID, "receipt");
+                            break;
+
+                        // case "quick reply":
+                        //     sendQuickReply(senderID);
+                        //     break;        
+
+                        // case "read receipt":
+                        //     sendReadReceipt(senderID);
+                        //     break;        
+
+                        // case "typing on":
+                        //     sendTypingOn(senderID);
+                        //     break;        
+
+                        // case "typing off":
+                        //     sendTypingOff(senderID);
+                        //     break;        
+
                          case "account linking":
                             SendAccountLinking(senderID);
                             break;
@@ -96,13 +163,42 @@ namespace fb_messenger_bot_tt_emergencyservices
             }
             return result;
         }
+
+        private void SendMessage(string recipientId, string type)
+        {
+//               var messageData = {
+//     recipient: {
+//       id: recipientId
+//     },
+//     message: {
+//       attachment: {
+//         type: "image",
+//         payload: {
+//           url: SERVER_URL + "/assets/rift.png"
+//         }
+//       }
+//     }
+//   };
+
+//   callSendAPI(messageData);
+            var messageData = JObject.FromObject(new
+            {
+                recipient = new
+                {
+                    id= recipientId
+                },
+                message = _messageTypeExamples[type]
+            });
+
+            _messageSender.CallSendAPI(messageData);
+        }
+
         /*
-        * Send a message with the account linking call-to-action
-        *
-        */
+* Send a message with the account linking call-to-action
+*
+*/
         private void SendAccountLinking(string recipientId)
         {
-
             var messageData = JObject.FromObject(new
             {
                 recipient = new
