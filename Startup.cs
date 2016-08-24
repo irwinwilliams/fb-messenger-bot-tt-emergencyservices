@@ -46,6 +46,7 @@ namespace fb_messenger_bot_tt_emergencyservices
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            app.UseStaticFiles();
         }
     }
 }
