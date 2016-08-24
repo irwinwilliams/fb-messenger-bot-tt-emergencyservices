@@ -38,12 +38,26 @@ namespace fb_messenger_bot_tt_emergencyservices
         private void LoadMessageTypeExamples()
         {
             _messageTypeExamples = new Dictionary<string, dynamic>();
-            _messageTypeExamples.Add("image", new 
+            var simpleExamples = new List<dynamic>();
+            simpleExamples.Add(new { name="image", type = "image", asset = "rift.png" });
+            simpleExamples.Add(new { name="gif", type = "image", asset = "instagram_logo.gif" });
+            simpleExamples.Add(new { name="audio", type = "audio", asset = "sample.mp3" });
+            simpleExamples.Add(new { name="video", type = "video", asset = "allofus480.mov" });
+            simpleExamples.Add(new { name="file", type = "file", asset = "test.txt" });
+            simpleExamples.ForEach(AddToMessageTypes);
+
+
+
+        }
+
+        private void AddToMessageTypes(dynamic simpleType)
+        {
+            _messageTypeExamples.Add(simpleType.name, new 
                 {
                     attachment = new {
-                        type = "image",
+                        type = simpleType.type,
                         payload = new {
-                            url = _serverUrl + "/assets/rift.png"
+                        url= _serverUrl + "/assets/"+simpleType.asset
                         }
                     }
                 }
