@@ -66,7 +66,7 @@ namespace fb_messenger_bot_tt_emergencyservices
                             }, 
                             new {
                                 type= "phone_number",
-                                title= "Call Teleios! :)",
+                                title= "Call Teleios",
                                 payload= "number= "+"+18686220940"
                             }}
                     }
