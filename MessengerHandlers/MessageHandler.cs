@@ -254,6 +254,9 @@ namespace fb_messenger_bot_tt_emergencyservices
                 },
                 message = _messageTypeExamples[type]
             });
+            var data = messageData.ToString();
+            _logger.LogInformation("About to send");
+            _logger.LogInformation(data);
 
             _messageSender.CallSendAPI(messageData);
         }
