@@ -56,7 +56,7 @@ namespace fb_messenger_bot_tt_emergencyservices
                         buttons=new dynamic[]{
                             new {
                                 type= "web_url",
-                                url= "https://www.teleioscodejam.com/",
+                                url= "http://www.teleioscodejam.com/",
                                 title= "Open Web URL"
                             }, 
                             new {
@@ -111,9 +111,63 @@ namespace fb_messenger_bot_tt_emergencyservices
                         }
                 }
             });
+            
+            var receiptId = "order"+ new Random().Next(10000, 100000);
+
+            _messageTypeExamples.Add("receipt", new 
+            {
+                attachment = new {
+                    type= "template",
+                    payload = new {
+                        template_type= "receipt",
+                        recipient_name= "Peter Chang",
+                        order_number= receiptId,
+                        currency= "USD",
+                        payment_method= "Visa 1234",        
+                        timestamp= "1428444852", 
+                        elements= new dynamic[]{new {
+                            title= "Oculus Rift",
+                            subtitle= "Includes= headset, sensor, remote",
+                            quantity= 1,
+                            price= 599.00,
+                            currency= "USD",
+                            image_url= _serverUrl + "/assets/riftsq.png"
+                        }, new {
+                            title= "Samsung Gear VR",
+                            subtitle= "Frost White",
+                            quantity= 1,
+                            price= 99.99,
+                            currency= "USD",
+                            image_url= _serverUrl + "/assets/gearvrsq.png"
+                        }},
+                        address= new {
+                            street_1= "1 Hacker Way",
+                            street_2= "",
+                            city= "Menlo Park",
+                            postal_code= "94025",
+                            state= "CA",
+                            country= "US"
+                        },
+                        summary= new {
+                            subtotal= 698.99,
+                            shipping_cost= 20.00,
+                            total_tax= 57.67,
+                            total_cost= 626.66
+                        },
+                        adjustments= new dynamic[]{new {
+                            name= "New Customer Discount",
+                            amount= -50
+                        }, new {
+                            name= "$100 Off Coupon",
+                            amount= -100
+                        }}
+                        }
+                }
+            });
 
 
         }
+
 
 
         private void AddToMessageTypes(dynamic simpleType)
