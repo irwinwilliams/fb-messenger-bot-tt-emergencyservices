@@ -45,9 +45,33 @@ namespace fb_messenger_bot_tt_emergencyservices
             simpleExamples.Add(new { name="video", type = "video", asset = "allofus480.mov" });
             simpleExamples.Add(new { name="file", type = "file", asset = "test.txt" });
             simpleExamples.ForEach(AddToMessageTypes);
-
-
-
+            
+            _messageTypeExamples.Add("button", new 
+            {
+                attachment = new {
+                    type= "template",
+                    payload = new {
+                        template_type= "button",
+                        text= "This is test text",
+                        buttons=new dynamic[]{
+                            new {
+                                type= "web_url",
+                                url= "https=//www.oculus.com/en-us/rift/",
+                                title= "Open Web URL"
+                            }, 
+                            new {
+                                type= "postback",
+                                title= "Trigger Postback",
+                                payload= "DEVELOPED_DEFINED_PAYLOAD"
+                            }, 
+                            new {
+                                type= "phone_number",
+                                title= "Call Teleios! :)",
+                                payload= "number= "+"18686220940"
+                            }}
+                    }
+                }
+            });
         }
 
         private void AddToMessageTypes(dynamic simpleType)
