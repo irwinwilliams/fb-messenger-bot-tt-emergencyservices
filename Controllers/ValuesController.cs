@@ -17,7 +17,7 @@ namespace fb_messenger_bot_tt_emergencyservices.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { Settings.ApplicationName, Settings.FBAppSecret};
+            return new string[] { Settings.ApplicationName, "hello"};
         }
 
         // GET api/values/5
