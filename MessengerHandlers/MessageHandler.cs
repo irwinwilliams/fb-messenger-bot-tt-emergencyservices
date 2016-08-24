@@ -56,7 +56,7 @@ namespace fb_messenger_bot_tt_emergencyservices
                         buttons=new dynamic[]{
                             new {
                                 type= "web_url",
-                                url= "https=//www.oculus.com/en-us/rift/",
+                                url= "https://www.teleioscodejam.com/",
                                 title= "Open Web URL"
                             }, 
                             new {
@@ -82,11 +82,11 @@ namespace fb_messenger_bot_tt_emergencyservices
                         elements= new dynamic[]{new {
                             title= "rift",
                             subtitle= "Next-generation virtual reality",
-                            item_url= "https=//www.oculus.com/en-us/rift/",               
+                            item_url= "https://www.oculus.com/en-us/rift/",               
                             image_url= _serverUrl + "/assets/rift.png",
                             buttons= new dynamic[]{new {
                             type= "web_url",
-                            url= "https=//www.oculus.com/en-us/rift/",
+                            url= "https://www.oculus.com/en-us/rift/",
                             title= "Open Web URL"
                             }, new {
                             type= "postback",
@@ -96,11 +96,11 @@ namespace fb_messenger_bot_tt_emergencyservices
                         }, new {
                             title= "touch",
                             subtitle= "Your Hands, Now in VR",
-                            item_url= "https=//www.oculus.com/en-us/touch/",               
+                            item_url= "https://www.oculus.com/en-us/touch/",               
                             image_url= _serverUrl + "/assets/touch.png",
                             buttons= new dynamic[]{new {
                             type= "web_url",
-                            url= "https=//www.oculus.com/en-us/touch/",
+                            url= "https://www.oculus.com/en-us/touch/",
                             title= "Open Web URL"
                             }, new {
                             type= "postback",
