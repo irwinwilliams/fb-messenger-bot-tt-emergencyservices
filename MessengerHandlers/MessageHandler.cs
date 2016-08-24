@@ -67,12 +67,54 @@ namespace fb_messenger_bot_tt_emergencyservices
                             new {
                                 type= "phone_number",
                                 title= "Call Teleios! :)",
-                                payload= "number= "+"18686220940"
+                                payload= "number= "+"+18686220940"
                             }}
                     }
                 }
             });
+
+            _messageTypeExamples.Add("generic", new 
+            {
+                attachment = new {
+                    type= "template",
+                    payload = new {
+                        template_type= "generic",
+                        elements= new dynamic[]{new {
+                            title= "rift",
+                            subtitle= "Next-generation virtual reality",
+                            item_url= "https=//www.oculus.com/en-us/rift/",               
+                            image_url= _serverUrl + "/assets/rift.png",
+                            buttons= new dynamic[]{new {
+                            type= "web_url",
+                            url= "https=//www.oculus.com/en-us/rift/",
+                            title= "Open Web URL"
+                            }, new {
+                            type= "postback",
+                            title= "Call Postback",
+                            payload= "Payload for first bubble",
+                            }},
+                        }, new {
+                            title= "touch",
+                            subtitle= "Your Hands, Now in VR",
+                            item_url= "https=//www.oculus.com/en-us/touch/",               
+                            image_url= _serverUrl + "/assets/touch.png",
+                            buttons= new dynamic[]{new {
+                            type= "web_url",
+                            url= "https=//www.oculus.com/en-us/touch/",
+                            title= "Open Web URL"
+                            }, new {
+                            type= "postback",
+                            title= "Call Postback",
+                            payload= "Payload for second bubble",
+                            }}
+                        }}
+                        }
+                }
+            });
+
+
         }
+
 
         private void AddToMessageTypes(dynamic simpleType)
         {
@@ -204,21 +246,6 @@ namespace fb_messenger_bot_tt_emergencyservices
 
         private void SendMessage(string recipientId, string type)
         {
-//               var messageData = {
-//     recipient: {
-//       id: recipientId
-//     },
-//     message: {
-//       attachment: {
-//         type: "image",
-//         payload: {
-//           url: SERVER_URL + "/assets/rift.png"
-//         }
-//       }
-//     }
-//   };
-
-//   callSendAPI(messageData);
             var messageData = JObject.FromObject(new
             {
                 recipient = new
